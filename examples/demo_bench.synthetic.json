@@ -1,0 +1,180 @@
+{
+  "actuome_version": "0.1.0",
+  "profile_id": "demo-bench-2-synthetic",
+  "data_status": "synthetic",
+  "coverage": "complete",
+  "platform": {
+    "name": "Fictional Demo Bench",
+    "manufacturer": "Synthetic example — no manufacturer",
+    "model_revision": "illustration-1",
+    "total_actuated_dof": 2
+  },
+  "sources": [
+    {
+      "source_id": "synthetic-design",
+      "title": "OpenActuome synthetic fixture",
+      "kind": "illustration",
+      "locator": "examples/demo_bench.synthetic.json",
+      "license_note": "MIT; fictional values, not third-party robot specifications"
+    }
+  ],
+  "interfaces": [
+    {
+      "interface_id": "demo_bus",
+      "protocol": "CAN-FD",
+      "cycle_time_ms": 1.0,
+      "description": "Fictional interface; bus cycle is not end-to-end latency."
+    }
+  ],
+  "axes": [
+    {
+      "axis_id": "bench_rotation",
+      "joint_name": "bench_joint",
+      "motion": "rotary",
+      "effort_unit": "N*m",
+      "velocity_unit": "rad/s",
+      "motor_type": "electric_rotary",
+      "transmission": "planetary",
+      "interface_ref": "demo_bus",
+      "evidence": {
+        "basis": "synthetic",
+        "source_refs": [
+          "synthetic-design"
+        ],
+        "method": "Hand-authored values to exercise the schema. No hardware measurement.",
+        "conditions": {
+          "ambient_temperature_c": 23.0,
+          "supply_voltage_v": 24.0,
+          "load_description": "Invented constant-load bench scenario; no experiment performed.",
+          "cooling": "Illustrative passive air cooling",
+          "controller_configuration": "Fictional controller; no executable gains supplied",
+          "mounting": "Fictional rigid benchtop fixture"
+        }
+      },
+      "limits": {
+        "continuous_effort": 4.0,
+        "continuous_effort_at_velocity": 1.0,
+        "peak_effort": 8.0,
+        "peak_duration_s": 0.5,
+        "max_velocity": 6.0
+      },
+      "latency": {
+        "boundary": "command_to_effort",
+        "boundary_detail": "Illustrative host timestamp to output effort at 90% of commanded step; no measurement.",
+        "median_ms": 2.0,
+        "p95_ms": 3.0,
+        "max_ms": 4.0
+      },
+      "backdrivable": "yes",
+      "backdrive_threshold_effort": 0.4,
+      "thermal": {
+        "limit_c": 70.0,
+        "sensor_location": "Illustrative housing sensor",
+        "derating_curve": [
+          {
+            "temperature_c": 40.0,
+            "effort_fraction": 1.0
+          },
+          {
+            "temperature_c": 60.0,
+            "effort_fraction": 0.6
+          },
+          {
+            "temperature_c": 70.0,
+            "effort_fraction": 0.0
+          }
+        ]
+      },
+      "effort_speed_curve": [
+        {
+          "speed": 0.0,
+          "continuous_effort": 4.0
+        },
+        {
+          "speed": 3.0,
+          "continuous_effort": 2.0
+        },
+        {
+          "speed": 6.0,
+          "continuous_effort": 0.0
+        }
+      ],
+      "notes": "Entirely synthetic. Do not load these values into a physical controller."
+    },
+    {
+      "axis_id": "bench_translation",
+      "joint_name": "slider_joint",
+      "motion": "linear",
+      "effort_unit": "N",
+      "velocity_unit": "m/s",
+      "motor_type": "electric_rotary",
+      "transmission": "screw",
+      "interface_ref": "demo_bus",
+      "evidence": {
+        "basis": "synthetic",
+        "source_refs": [
+          "synthetic-design"
+        ],
+        "method": "Hand-authored values to exercise the schema. No hardware measurement.",
+        "conditions": {
+          "ambient_temperature_c": 23.0,
+          "supply_voltage_v": 24.0,
+          "load_description": "Invented constant-load bench scenario; no experiment performed.",
+          "cooling": "Illustrative passive air cooling",
+          "controller_configuration": "Fictional controller; no executable gains supplied",
+          "mounting": "Fictional rigid benchtop fixture"
+        }
+      },
+      "limits": {
+        "continuous_effort": 50.0,
+        "continuous_effort_at_velocity": 0.02,
+        "peak_effort": 80.0,
+        "peak_duration_s": 0.2,
+        "max_velocity": 0.1
+      },
+      "latency": {
+        "boundary": "command_to_effort",
+        "boundary_detail": "Illustrative host timestamp to output effort at 90% of commanded step; no measurement.",
+        "median_ms": 2.0,
+        "p95_ms": 3.0,
+        "max_ms": 4.0
+      },
+      "backdrivable": "no",
+      "backdrive_threshold_effort": null,
+      "thermal": {
+        "limit_c": 70.0,
+        "sensor_location": "Illustrative housing sensor",
+        "derating_curve": [
+          {
+            "temperature_c": 40.0,
+            "effort_fraction": 1.0
+          },
+          {
+            "temperature_c": 60.0,
+            "effort_fraction": 0.6
+          },
+          {
+            "temperature_c": 70.0,
+            "effort_fraction": 0.0
+          }
+        ]
+      },
+      "effort_speed_curve": [
+        {
+          "speed": 0.0,
+          "continuous_effort": 50.0
+        },
+        {
+          "speed": 0.05,
+          "continuous_effort": 25.0
+        },
+        {
+          "speed": 0.1,
+          "continuous_effort": 0.0
+        }
+      ],
+      "notes": "Entirely synthetic. Do not load these values into a physical controller."
+    }
+  ],
+  "notes": "This fixture demonstrates validation and units. No empirical robot performance is claimed."
+}

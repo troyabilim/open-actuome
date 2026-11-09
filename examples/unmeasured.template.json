@@ -1,0 +1,104 @@
+{
+  "actuome_version": "0.1.0",
+  "profile_id": "unmeasured-template",
+  "data_status": "unknown",
+  "coverage": "complete",
+  "platform": {
+    "name": "Fictional Demo Bench",
+    "manufacturer": "Synthetic example — no manufacturer",
+    "model_revision": "illustration-1",
+    "total_actuated_dof": 2
+  },
+  "sources": [],
+  "interfaces": [
+    {
+      "interface_id": "demo_bus",
+      "protocol": "unknown",
+      "cycle_time_ms": null,
+      "description": "Not measured"
+    }
+  ],
+  "axes": [
+    {
+      "axis_id": "bench_rotation",
+      "joint_name": "bench_joint",
+      "motion": "rotary",
+      "effort_unit": "N*m",
+      "velocity_unit": "rad/s",
+      "motor_type": "electric_rotary",
+      "transmission": "planetary",
+      "interface_ref": "demo_bus",
+      "evidence": {
+        "basis": "unknown",
+        "source_refs": [],
+        "method": "Not measured",
+        "conditions": {
+          "ambient_temperature_c": null,
+          "supply_voltage_v": null,
+          "load_description": null,
+          "cooling": null,
+          "controller_configuration": "Unknown",
+          "mounting": "Unknown"
+        }
+      },
+      "limits": {
+        "continuous_effort": null,
+        "continuous_effort_at_velocity": null,
+        "peak_effort": null,
+        "peak_duration_s": null,
+        "max_velocity": null
+      },
+      "latency": {
+        "boundary": "unknown",
+        "boundary_detail": "Not measured",
+        "median_ms": null,
+        "p95_ms": null,
+        "max_ms": null
+      },
+      "backdrivable": "unknown",
+      "backdrive_threshold_effort": null,
+      "notes": "Replace with sourced observations; null is not zero."
+    },
+    {
+      "axis_id": "bench_translation",
+      "joint_name": "slider_joint",
+      "motion": "linear",
+      "effort_unit": "N",
+      "velocity_unit": "m/s",
+      "motor_type": "electric_rotary",
+      "transmission": "screw",
+      "interface_ref": "demo_bus",
+      "evidence": {
+        "basis": "unknown",
+        "source_refs": [],
+        "method": "Not measured",
+        "conditions": {
+          "ambient_temperature_c": null,
+          "supply_voltage_v": null,
+          "load_description": null,
+          "cooling": null,
+          "controller_configuration": "Unknown",
+          "mounting": "Unknown"
+        }
+      },
+      "limits": {
+        "continuous_effort": null,
+        "continuous_effort_at_velocity": null,
+        "peak_effort": null,
+        "peak_duration_s": null,
+        "max_velocity": null
+      },
+      "latency": {
+        "boundary": "unknown",
+        "boundary_detail": "Not measured",
+        "median_ms": null,
+        "p95_ms": null,
+        "max_ms": null
+      },
+      "backdrivable": "unknown",
+      "backdrive_threshold_effort": null,
+      "notes": "Replace with sourced observations; null is not zero."
+    }
+  ],
+  "notes": "Unmeasured template. Replace platform identity, supply sources and conditions before reporting observations."
+}

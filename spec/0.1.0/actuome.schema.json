@@ -1,0 +1,647 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:openactuome:spec:0.1.0",
+  "title": "OpenActuome 0.1.0 — experimental actuation profile",
+  "description": "Descriptive interchange profile; not an industry-approved standard, controller, or safety certification.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "actuome_version",
+    "profile_id",
+    "data_status",
+    "coverage",
+    "platform",
+    "sources",
+    "interfaces",
+    "axes",
+    "notes"
+  ],
+  "properties": {
+    "actuome_version": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "profile_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 96,
+      "pattern": "^[A-Za-z][A-Za-z0-9_.-]*$"
+    },
+    "data_status": {
+      "type": "string",
+      "enum": [
+        "synthetic",
+        "measured",
+        "manufacturer_declared",
+        "simulated",
+        "unknown",
+        "mixed"
+      ]
+    },
+    "coverage": {
+      "type": "string",
+      "enum": [
+        "complete",
+        "partial"
+      ]
+    },
+    "platform": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "manufacturer",
+        "model_revision",
+        "total_actuated_dof"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "manufacturer": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "model_revision": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "total_actuated_dof": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "$ref": "#/$defs/source"
+      }
+    },
+    "interfaces": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/interface"
+      }
+    },
+    "axes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/axis"
+      }
+    },
+    "notes": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    }
+  },
+  "$defs": {
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_id",
+        "title",
+        "kind",
+        "locator",
+        "license_note"
+      ],
+      "properties": {
+        "source_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 96,
+          "pattern": "^[A-Za-z][A-Za-z0-9_.-]*$"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "measurement_report",
+            "manufacturer_document",
+            "simulation_artifact",
+            "illustration"
+          ]
+        },
+        "locator": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "license_note": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      }
+    },
+    "conditions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ambient_temperature_c",
+        "supply_voltage_v",
+        "load_description",
+        "cooling",
+        "controller_configuration",
+        "mounting"
+      ],
+      "properties": {
+        "ambient_temperature_c": {
+          "anyOf": [
+            {
+              "type": "number",
+              "exclusiveMinimum": -273.15
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "supply_voltage_v": {
+          "anyOf": [
+            {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "load_description": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "cooling": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "controller_configuration": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "mounting": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "basis",
+        "source_refs",
+        "method",
+        "conditions"
+      ],
+      "properties": {
+        "basis": {
+          "type": "string",
+          "enum": [
+            "synthetic",
+            "measured",
+            "manufacturer_declared",
+            "simulated",
+            "unknown"
+          ]
+        },
+        "source_refs": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 96,
+            "pattern": "^[A-Za-z][A-Za-z0-9_.-]*$"
+          }
+        },
+        "method": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "conditions": {
+          "$ref": "#/$defs/conditions"
+        },
+        "measured_at": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "sample_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "instrument": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "uncertainty_note": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      }
+    },
+    "interface": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "interface_id",
+        "protocol",
+        "cycle_time_ms",
+        "description"
+      ],
+      "properties": {
+        "interface_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 96,
+          "pattern": "^[A-Za-z][A-Za-z0-9_.-]*$"
+        },
+        "protocol": {
+          "type": "string",
+          "enum": [
+            "EtherCAT",
+            "CAN",
+            "CAN-FD",
+            "RS485",
+            "Ethernet",
+            "other",
+            "unknown"
+          ]
+        },
+        "cycle_time_ms": {
+          "anyOf": [
+            {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      }
+    },
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "continuous_effort",
+        "continuous_effort_at_velocity",
+        "peak_effort",
+        "peak_duration_s",
+        "max_velocity"
+      ],
+      "properties": {
+        "continuous_effort": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "continuous_effort_at_velocity": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "peak_effort": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "peak_duration_s": {
+          "anyOf": [
+            {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "max_velocity": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "latency": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "boundary",
+        "boundary_detail",
+        "median_ms",
+        "p95_ms",
+        "max_ms"
+      ],
+      "properties": {
+        "boundary": {
+          "type": "string",
+          "enum": [
+            "command_to_effort",
+            "control_bus_only",
+            "command_to_motion",
+            "other",
+            "unknown"
+          ]
+        },
+        "boundary_detail": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "median_ms": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "p95_ms": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "max_ms": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "thermal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "limit_c",
+        "sensor_location",
+        "derating_curve"
+      ],
+      "properties": {
+        "limit_c": {
+          "anyOf": [
+            {
+              "type": "number",
+              "exclusiveMinimum": -273.15
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sensor_location": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "derating_curve": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "temperature_c",
+              "effort_fraction"
+            ],
+            "properties": {
+              "temperature_c": {
+                "type": "number",
+                "exclusiveMinimum": -273.15
+              },
+              "effort_fraction": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    "axis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "axis_id",
+        "joint_name",
+        "motion",
+        "effort_unit",
+        "velocity_unit",
+        "motor_type",
+        "transmission",
+        "interface_ref",
+        "evidence",
+        "limits",
+        "latency",
+        "backdrivable",
+        "backdrive_threshold_effort",
+        "notes"
+      ],
+      "properties": {
+        "axis_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 96,
+          "pattern": "^[A-Za-z][A-Za-z0-9_.-]*$"
+        },
+        "joint_name": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "motion": {
+          "type": "string",
+          "enum": [
+            "rotary",
+            "linear"
+          ]
+        },
+        "effort_unit": {
+          "type": "string",
+          "enum": [
+            "N*m",
+            "N"
+          ]
+        },
+        "velocity_unit": {
+          "type": "string",
+          "enum": [
+            "rad/s",
+            "m/s"
+          ]
+        },
+        "motor_type": {
+          "type": "string",
+          "enum": [
+            "electric_rotary",
+            "electric_linear",
+            "hydraulic",
+            "pneumatic",
+            "other",
+            "unknown"
+          ]
+        },
+        "transmission": {
+          "type": "string",
+          "enum": [
+            "direct",
+            "planetary",
+            "harmonic",
+            "cycloidal",
+            "screw",
+            "cable",
+            "other",
+            "unknown"
+          ]
+        },
+        "interface_ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 96,
+          "pattern": "^[A-Za-z][A-Za-z0-9_.-]*$"
+        },
+        "evidence": {
+          "$ref": "#/$defs/evidence"
+        },
+        "limits": {
+          "$ref": "#/$defs/limits"
+        },
+        "latency": {
+          "$ref": "#/$defs/latency"
+        },
+        "backdrivable": {
+          "type": "string",
+          "enum": [
+            "yes",
+            "no",
+            "unknown"
+          ]
+        },
+        "backdrive_threshold_effort": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "thermal": {
+          "$ref": "#/$defs/thermal"
+        },
+        "effort_speed_curve": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "speed",
+              "continuous_effort"
+            ],
+            "properties": {
+              "speed": {
+                "type": "number",
+                "minimum": 0
+              },
+              "continuous_effort": {
+                "type": "number",
+                "minimum": 0
+              }
+            }
+          }
+        },
+        "notes": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        }
+      }
+    }
+  }
+}
